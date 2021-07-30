@@ -1,87 +1,67 @@
 import React from 'react';
-import {
-  View,
-  FlatList,
-  ActivityIndicator,
-  Text,
-  TouchableOpacity,
-  Button,
-} from 'react-native';
-import {enableScreens} from 'react-native-screens';
+import {View, FlatList, Text, TouchableOpacity, Button} from 'react-native';
 import {homeStyles} from './HomeStyles';
-import AsyncStorage from '@react-native-community/async-storage';
 import {Icon} from 'react-native-elements';
 
-enableScreens();
-
 export const HomePage = (props: HomeProps) => {
-  const {navigation, dataSource, loading, hook} = props;
-  const [setFavorite] = hook;
+  const {navigation, dataSource, favHook} = props;
+  const [favorites, setFavorites] = favHook;
 
   const itemSeparator = () => {
     return <View style={homeStyles.separator} />;
   };
 
   const renderItem = (data: any) => {
+    const {item} = data;
+    const isFavorite = !favorites.some(
+      (alreadyFavorite: any) => alreadyFavorite.name === item.name,
+    );
     return (
-      <TouchableOpacity
-        style={homeStyles.list}
-        onPress={() => {
-          setFavorite(data.item.name, data);
-          navigation.navigate('Details', {character: data.item});
-        }}>
-        <Text style={homeStyles.lightText}>{data.item.name}</Text>
-        <Text style={homeStyles.lightText}>{data.item.eye_color}</Text>
-        <Text style={homeStyles.lightText}>{data.item.gender}</Text>
-        <Icon raised name="g-translate" onPress={() => console.log('hello')} />
-      </TouchableOpacity>
+      <View style={homeStyles.listContainer}>
+        <TouchableOpacity
+          style={homeStyles.listContent}
+          onPress={() => {
+            navigation.navigate('Details', {character: item});
+          }}>
+          <Text style={homeStyles.listText}>{item.name}</Text>
+        </TouchableOpacity>
+        <Icon
+          raised
+          name="favorite"
+          onPress={() => {
+            isFavorite && setFavorites([...favorites, item]);
+          }}
+          color={isFavorite ? 'gray' : 'red'}
+          containerStyle={homeStyles.icon}
+        />
+      </View>
     );
   };
 
   return (
     <View style={homeStyles.parentContainer}>
-      {loading ? (
-        <View style={homeStyles.loader}>
-          <ActivityIndicator size="large" color="#0c9" />
-          <Text>Fetching Data</Text>
-        </View>
-      ) : (
-        <FlatList
-          data={dataSource}
-          ItemSeparatorComponent={itemSeparator}
-          renderItem={item => renderItem(item)}
-          keyExtractor={(_, index) => `key_${index}`}
-          contentContainerStyle={{
-            flexGrow: 1,
-          }}
-        />
-      )}
-      <Button
-        title="Go to favorites"
-        onPress={() => navigation.navigate('Index')}
+      <FlatList
+        data={dataSource}
+        ItemSeparatorComponent={itemSeparator}
+        renderItem={item => renderItem(item)}
+        keyExtractor={(_, index) => `key_${index}`}
+        contentContainerStyle={{
+          flexGrow: 1,
+        }}
       />
-      <Button title="Storage" onPress={() => retrieveData()} />
+      <Button
+        disabled={!favorites.length}
+        title="Go to favorites"
+        onPress={() => {
+          navigation.navigate('Favorites', {favorites, navigation});
+        }}
+      />
     </View>
   );
-};
-
-const retrieveData = async () => {
-  try {
-    const value = await AsyncStorage.getItem('favorites');
-    if (value !== null) {
-      // We have data!!
-      console.log(JSON.parse(value));
-    }
-    console.log(value);
-  } catch (error) {
-    console.error(error);
-    // Error retrieving data
-  }
 };
 
 type HomeProps = {
   navigation: any;
   dataSource: any;
-  loading: any;
-  hook: any;
+  favHook: any;
 };

@@ -10,6 +10,16 @@ export const homeStyles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
-  list: {},
-  lightText: {},
+  listContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  listContent: {
+    width: '82%',
+  },
+  listText: {
+    textAlign: 'center',
+  },
+  icon: {},
 });
