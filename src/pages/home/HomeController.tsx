@@ -1,6 +1,7 @@
 import {HomePage} from './HomePage';
 import React, {useEffect, useState} from 'react';
 import {getStarWarsPeople} from '../../services/StarWarsService';
+import LoadingUtil from '../../components/loading/LoadingUtil';
 
 export const HomeController = ({navigation}: any) => {
   const [people, setPeople] = useState([{}]);
@@ -11,8 +12,15 @@ export const HomeController = ({navigation}: any) => {
   }, []);
 
   const requestStartWarsPeople = async () => {
-    const response = await getStarWarsPeople;
-    setPeople(response.results);
+    try {
+      LoadingUtil.showLoading();
+      const response = await getStarWarsPeople;
+      setPeople(response.results);
+      LoadingUtil.dismissLoading();
+    } catch (error) {
+      console.error(error);
+      LoadingUtil.dismissLoading();
+    }
   };
 
   return (
