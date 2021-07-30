@@ -45,12 +45,10 @@ export const HomePage = (props: HomeProps) => {
         ItemSeparatorComponent={itemSeparator}
         renderItem={item => renderItem(item)}
         keyExtractor={(_, index) => `key_${index}`}
-        contentContainerStyle={{
-          flexGrow: 1,
-        }}
+        contentContainerStyle={homeStyles.flatList}
       />
       <Button
-        disabled={!favorites.length}
+        disabled={favorites.length <= 1}
         title="Go to favorites"
         onPress={() => {
           navigation.navigate('Favorites', {favorites, navigation});

@@ -4,6 +4,9 @@ export const homeStyles = StyleSheet.create({
   parentContainer: {
     flex: 1,
   },
+  flatList: {
+    flexGrow: 1,
+  },
   loader: {},
   separator: {
     height: 0.5,
