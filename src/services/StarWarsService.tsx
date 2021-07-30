@@ -1,3 +1,4 @@
+import {StarWarsCharacterModel} from '../models/StarWarsCharacterModel';
 import {StarWarsServiceFactory} from './StarWarsServiceFactory';
 
 enum StarWarsUrlEnum {
@@ -11,7 +12,8 @@ enum StarWarsUrlEnum {
 
 const {PEOPLE, PLANETS, FILMS, SPECIES, VEHICLES, STARSHIPS} = StarWarsUrlEnum;
 
-export const getStarWarsPeople = StarWarsServiceFactory(PEOPLE);
+export const getStarWarsPeople: Promise<StarWarsCharacterModel> =
+  StarWarsServiceFactory(PEOPLE);
 export const getStarWarsPlanets = StarWarsServiceFactory(PLANETS);
 export const getStarWarsMovies = StarWarsServiceFactory(FILMS);
 export const requestStartWarsSpecies = StarWarsServiceFactory(SPECIES);

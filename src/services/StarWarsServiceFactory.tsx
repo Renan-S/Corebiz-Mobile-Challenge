@@ -3,6 +3,6 @@ export const StarWarsServiceFactory = async (url: string): Promise<any> => {
     const starWarsList = await fetch(url);
     return starWarsList.json();
   } catch (error) {
-    console.error(error);
+    throw new Error(error);
   }
 };
