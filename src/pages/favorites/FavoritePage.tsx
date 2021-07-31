@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, FlatList, Text, TouchableOpacity} from 'react-native';
+import {View, FlatList, Text, TouchableOpacity, Image} from 'react-native';
 import {homeStyles} from '../home/HomeStyles';
 import {favoriteStyles} from './FavoriteStyles';
 
@@ -25,7 +25,7 @@ export const FavoritePage = ({route}: any) => {
     );
   };
 
-  return (
+  return favorites.length ? (
     <View style={homeStyles.parentContainer}>
       <FlatList
         data={favorites}
@@ -33,6 +33,16 @@ export const FavoritePage = ({route}: any) => {
         renderItem={item => renderItem(item)}
         keyExtractor={(_, index) => `key_${index}`}
         contentContainerStyle={homeStyles.flatList}
+      />
+    </View>
+  ) : (
+    <View style={favoriteStyles.imgContainter}>
+      <Text style={homeStyles.listText}>
+        Those are not the Favorites you're looking for
+      </Text>
+      <Image
+        style={favoriteStyles.image}
+        source={require('../../assets/anakin-cries.jpg')}
       />
     </View>
   );
