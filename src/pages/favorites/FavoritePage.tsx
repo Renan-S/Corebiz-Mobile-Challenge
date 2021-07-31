@@ -38,7 +38,7 @@ export const FavoritePage = ({route}: any) => {
   ) : (
     <View style={favoriteStyles.imgContainter}>
       <Text style={homeStyles.listText}>
-        Those are not the Favorites you're looking for
+        These aren't the Favorites you're looking for...
       </Text>
       <Image
         style={favoriteStyles.image}
