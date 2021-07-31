@@ -5,7 +5,7 @@ import LoadingUtil from '../../components/loading/LoadingUtil';
 
 export const HomeController = ({navigation}: any) => {
   const [people, setPeople] = useState([{}]);
-  const [favorites, setFavorites] = useState([{}]);
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     requestStartWarsPeople();
@@ -16,9 +16,9 @@ export const HomeController = ({navigation}: any) => {
       LoadingUtil.showLoading();
       const response = await getStarWarsPeople;
       setPeople(response.results);
-      LoadingUtil.dismissLoading();
     } catch (error) {
       console.error(error);
+    } finally {
       LoadingUtil.dismissLoading();
     }
   };

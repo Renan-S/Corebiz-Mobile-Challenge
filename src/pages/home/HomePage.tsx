@@ -48,7 +48,6 @@ export const HomePage = (props: HomeProps) => {
         contentContainerStyle={homeStyles.flatList}
       />
       <Button
-        disabled={favorites.length <= 1}
         title="Go to favorites"
         onPress={() => {
           navigation.navigate('Favorites', {favorites, navigation});
