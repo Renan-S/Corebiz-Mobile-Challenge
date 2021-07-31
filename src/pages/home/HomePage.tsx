@@ -2,6 +2,7 @@ import React from 'react';
 import {View, FlatList, Text, TouchableOpacity, Button} from 'react-native';
 import {homeStyles} from './HomeStyles';
 import {Icon} from 'react-native-elements';
+import {CharacterResult} from '../../models/StarWarsCharacterModel';
 
 export const HomePage = (props: HomeProps) => {
   const {navigation, dataSource, favHook} = props;
@@ -11,25 +12,25 @@ export const HomePage = (props: HomeProps) => {
     return <View style={homeStyles.separator} />;
   };
 
-  const renderItem = (data: any) => {
-    const {item} = data;
+  const renderItem = (character: CharacterResult) => {
+    const {name} = character;
     const isFavorite = !favorites.some(
-      (alreadyFavorite: any) => alreadyFavorite.name === item.name,
+      (alreadyFavorite: any) => alreadyFavorite.name === name,
     );
     return (
       <View style={homeStyles.listContainer}>
         <TouchableOpacity
           style={homeStyles.listContent}
           onPress={() => {
-            navigation.navigate('Details', {character: item});
+            navigation.navigate('Details', {character});
           }}>
-          <Text style={homeStyles.listText}>{item.name}</Text>
+          <Text style={homeStyles.listText}>{name}</Text>
         </TouchableOpacity>
         <Icon
           raised
           name="favorite"
           onPress={() => {
-            isFavorite && setFavorites([...favorites, item]);
+            isFavorite && setFavorites([...favorites, character]);
           }}
           color={isFavorite ? 'gray' : 'red'}
           containerStyle={homeStyles.icon}
@@ -43,7 +44,7 @@ export const HomePage = (props: HomeProps) => {
       <FlatList
         data={dataSource}
         ItemSeparatorComponent={itemSeparator}
-        renderItem={item => renderItem(item)}
+        renderItem={data => renderItem(data.item)}
         keyExtractor={(_, index) => `key_${index}`}
         contentContainerStyle={homeStyles.flatList}
       />
@@ -59,6 +60,6 @@ export const HomePage = (props: HomeProps) => {
 
 type HomeProps = {
   navigation: any;
-  dataSource: any;
+  dataSource: CharacterResult[];
   favHook: any;
 };

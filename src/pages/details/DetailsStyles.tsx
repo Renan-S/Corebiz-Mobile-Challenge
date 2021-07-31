@@ -9,6 +9,7 @@ export const detailStyles = StyleSheet.create({
     width: '48%',
     borderWidth: 1,
     borderRadius: 5,
+    padding: 5,
   },
   name: {
     textAlign: 'center',

@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, FlatList, Text, TouchableOpacity, Image} from 'react-native';
+import {CharacterResult} from '../../models/StarWarsCharacterModel';
 import {homeStyles} from '../home/HomeStyles';
 import {favoriteStyles} from './FavoriteStyles';
 
@@ -10,16 +11,15 @@ export const FavoritePage = ({route}: any) => {
     return <View style={homeStyles.separator} />;
   };
 
-  const renderItem = (data: any) => {
-    const {item} = data;
+  const renderItem = (character: CharacterResult) => {
     return (
       <View style={homeStyles.listContainer}>
         <TouchableOpacity
           style={favoriteStyles.listContent}
           onPress={() => {
-            navigation.navigate('Details', {character: item});
+            navigation.navigate('Details', {character});
           }}>
-          <Text style={homeStyles.listText}>{item.name}</Text>
+          <Text style={homeStyles.listText}>{character.name}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -30,7 +30,7 @@ export const FavoritePage = ({route}: any) => {
       <FlatList
         data={favorites}
         ItemSeparatorComponent={itemSeparator}
-        renderItem={item => renderItem(item)}
+        renderItem={data => renderItem(data.item)}
         keyExtractor={(_, index) => `key_${index}`}
         contentContainerStyle={homeStyles.flatList}
       />
