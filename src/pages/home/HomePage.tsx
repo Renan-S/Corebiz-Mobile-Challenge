@@ -59,7 +59,10 @@ export const HomePage = (props: HomeProps) => {
       <Button
         title="Go to favorites"
         onPress={() => {
-          navigation.navigate('Favorites', {favorites, navigation});
+          navigation.navigate('Favorites', {
+            favHook,
+            navigation,
+          });
         }}
       />
     </View>

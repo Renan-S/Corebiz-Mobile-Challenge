@@ -1,10 +1,6 @@
 import {StyleSheet} from 'react-native';
 
 export const favoriteStyles = StyleSheet.create({
-  listContent: {
-    width: '100%',
-    padding: 15,
-  },
   imgContainter: {
     flex: 1,
     justifyContent: 'center',

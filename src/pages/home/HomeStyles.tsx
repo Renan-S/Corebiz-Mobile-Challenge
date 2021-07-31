@@ -22,7 +22,10 @@ export const homeStyles = StyleSheet.create({
     width: '82%',
   },
   listText: {
-    textAlign: 'center',
+    paddingLeft: 19,
+    textAlign: 'justify',
   },
-  icon: {},
+  icon: {
+    width: '13%',
+  },
 });

@@ -1,11 +1,15 @@
 import React from 'react';
+import {useState} from 'react';
 import {View, FlatList, Text, TouchableOpacity, Image} from 'react-native';
+import {Icon} from 'react-native-elements';
 import {CharacterResult} from '../../models/StarWarsCharacterModel';
 import {homeStyles} from '../home/HomeStyles';
 import {favoriteStyles} from './FavoriteStyles';
 
 export const FavoritePage = ({route}: any) => {
-  const {favorites, navigation} = route.params;
+  const {favHook, navigation} = route.params;
+  const [favorites, setFavorites] = favHook;
+  const [localFavs, setLocalFavs] = useState(favorites);
 
   const itemSeparator = () => {
     return <View style={homeStyles.separator} />;
@@ -15,20 +19,37 @@ export const FavoritePage = ({route}: any) => {
     return (
       <View style={homeStyles.listContainer}>
         <TouchableOpacity
-          style={favoriteStyles.listContent}
+          style={homeStyles.listContent}
           onPress={() => {
             navigation.navigate('Details', {character});
           }}>
           <Text style={homeStyles.listText}>{character.name}</Text>
         </TouchableOpacity>
+        <Icon
+          raised
+          name="delete"
+          onPress={() => {
+            setLocalFavs(
+              localFavs.filter(
+                (element: CharacterResult) => element !== character,
+              ),
+            );
+            setFavorites(
+              favorites.filter(
+                (element: CharacterResult) => element !== character,
+              ),
+            );
+          }}
+          containerStyle={homeStyles.icon}
+        />
       </View>
     );
   };
 
-  return favorites.length ? (
+  return localFavs.length ? (
     <View style={homeStyles.parentContainer}>
       <FlatList
-        data={favorites}
+        data={localFavs}
         ItemSeparatorComponent={itemSeparator}
         renderItem={data => renderItem(data.item)}
         keyExtractor={(_, index) => `key_${index}`}
