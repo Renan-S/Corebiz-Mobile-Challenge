@@ -30,7 +30,15 @@ export const HomePage = (props: HomeProps) => {
           raised
           name="favorite"
           onPress={() => {
-            isFavorite && setFavorites([...favorites, character]);
+            if (isFavorite) {
+              setFavorites([...favorites, character]);
+            } else {
+              setFavorites(
+                favorites.filter(
+                  (element: CharacterResult) => element !== character,
+                ),
+              );
+            }
           }}
           color={isFavorite ? 'gray' : 'red'}
           containerStyle={homeStyles.icon}
