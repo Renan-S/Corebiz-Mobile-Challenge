@@ -5,7 +5,8 @@ export type StarWarsCharacterModel = {
   results: CharacterResult[];
 };
 
-type CharacterResult = {
+export type CharacterResult = {
+  name: string;
   height: string;
   hair_color: string;
   eye_color: string;
